@@ -1,9 +1,9 @@
-#include <SPI.h>
-#include <util.h>
 
 // include the library code:
+#include <SPI.h>
+#include <util.h>
+#include <WeatherStation.h>
 #include <VirtualWire.h>
-// include the library code:
 #include <LiquidCrystal.h>
 
 // initialize the library with the numbers of the interface pins
@@ -30,25 +30,28 @@ void setup()
   pinMode(BUSY_PIN, OUTPUT);     
   pinMode(ERROR_PIN, OUTPUT);     
 
-  // Initialise the IO and ISR
-  vw_set_ptt_inverted(true); // Required for DR3100
-  vw_set_rx_pin(RX_PIN);
-  vw_setup(2000);	 // Bits per sec
-
   lcd.begin(16, 2);
   lcd.setCursor(0, 0);
   lcd.print("temp");
   lcd.setCursor(0, 1);
   lcd.print("humidity");
   
-  vw_rx_start();       // Start the receiver PLL running
-  delay(1000);
+  initData();
 }
 
 void loop()
 {
   getData();
+}
 
+void initData()
+{
+  // Initialise the IO and ISR
+  vw_set_ptt_inverted(true); // Required for DR3100
+  vw_set_rx_pin(RX_PIN);
+  vw_setup(2000);	 // Bits per sec
+  vw_rx_start();       // Start the receiver PLL running
+  delay(1000);
 }
 
 void getData()
@@ -101,6 +104,7 @@ void getData()
     }
     else
     {
+      Serial.println("Error");
       digitalWrite(ERROR_PIN,true);
       delay(1000);
       digitalWrite(ERROR_PIN,false);

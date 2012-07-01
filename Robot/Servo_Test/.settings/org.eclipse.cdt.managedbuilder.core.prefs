@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+environment/buildEnvironmentInclude/it.baeyens.avreclipse.configuration.app.release.980545052/CPATH/delimiter=\:
+environment/buildEnvironmentInclude/it.baeyens.avreclipse.configuration.app.release.980545052/CPATH/operation=remove
+environment/buildEnvironmentInclude/it.baeyens.avreclipse.configuration.app.release.980545052/CPLUS_INCLUDE_PATH/delimiter=\:
+environment/buildEnvironmentInclude/it.baeyens.avreclipse.configuration.app.release.980545052/CPLUS_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/it.baeyens.avreclipse.configuration.app.release.980545052/C_INCLUDE_PATH/delimiter=\:
+environment/buildEnvironmentInclude/it.baeyens.avreclipse.configuration.app.release.980545052/C_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/it.baeyens.avreclipse.configuration.app.release.980545052/append=true
+environment/buildEnvironmentInclude/it.baeyens.avreclipse.configuration.app.release.980545052/appendContributed=true
+environment/buildEnvironmentLibrary/it.baeyens.avreclipse.configuration.app.release.980545052/LIBRARY_PATH/delimiter=\:
+environment/buildEnvironmentLibrary/it.baeyens.avreclipse.configuration.app.release.980545052/LIBRARY_PATH/operation=remove
+environment/buildEnvironmentLibrary/it.baeyens.avreclipse.configuration.app.release.980545052/append=true
+environment/buildEnvironmentLibrary/it.baeyens.avreclipse.configuration.app.release.980545052/appendContributed=true
