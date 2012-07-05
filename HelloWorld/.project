@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Arduino_Uno</name>
+	<name>HelloWorld</name>
 	<comment></comment>
 	<projects>
+		<project>Arduino_Uno</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -25,16 +26,4 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 		<nature>it.baeyens.arduinonature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>arduino</name>
-			<type>2</type>
-			<locationURI>CoreArduinoPath/arduino</locationURI>
-		</link>
-		<link>
-			<name>standard</name>
-			<type>2</type>
-			<locationURI>PinArduinoPath/standard</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
