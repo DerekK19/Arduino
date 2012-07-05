@@ -28,14 +28,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>LiquidCrystal.cpp</name>
-			<type>1</type>
-			<location>/Users/derek/Solutions/Arduino/libraries/LiquidCrystal/LiquidCrystal.cpp</location>
+			<name>LiquidCrystal</name>
+			<type>2</type>
+			<locationURI>ArduinoLibPath/LiquidCrystal</locationURI>
 		</link>
 		<link>
-			<name>Servo.cpp</name>
-			<type>1</type>
-			<location>/Users/derek/Solutions/Arduino/libraries/Servo/Servo.cpp</location>
+			<name>Servo</name>
+			<type>2</type>
+			<locationURI>PivateLibPath/Servo</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
