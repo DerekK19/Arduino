@@ -6,15 +6,15 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 int sensorPin = A0;
 
-Servo xServo;  // create servo object to control a servo
+Servo xServo;   // create servo object to control a servo
                 // a maximum of eight servo objects can be created
-Servo yServo;  // create servo object to control a servo
+Servo yServo;   // create servo object to control a servo
                 // a maximum of eight servo objects can be created
 
 int run = 0;
 int toggle = 0;
 
-int x = 0;    // variables to store the servo positions
+int x = 0;      // variables to store the servo positions
 int y = 0;
 int loX = 30;
 int hiX = 150;
@@ -38,14 +38,12 @@ int nearY = 0;
 //The setup function is called once at startup of the sketch
 void setup()
 {
-// Add your initialization code here
-
 	  Serial.begin(9600);
 
-	  pinMode (7, INPUT);
+	  pinMode (7, INPUT); // Sets pin 7 as an input for the Start/Stop button
 
-	  xServo.attach(9);  // attaches the servo on pin 11 to the servo object
-	  yServo.attach(10);  // attaches the servo on pin 12 to the servo object
+	  xServo.attach(9);   // attaches the X servo on pin 9 to the servo object
+	  yServo.attach(10);  // attaches the Y servo on pin 10 to the servo object
 	  x = -1;
 	  y = -1;
 	  run = 0;
