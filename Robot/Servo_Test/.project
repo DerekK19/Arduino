@@ -35,7 +35,7 @@
 		<link>
 			<name>Servo</name>
 			<type>2</type>
-			<locationURI>PivateLibPath/Servo</locationURI>
+			<locationURI>ArduinoLibPath/Servo</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
