@@ -30,3 +30,4 @@ build
 .sconsign.dblite
 *.elf
 *.hex
+output.txt
