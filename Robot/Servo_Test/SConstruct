@@ -98,7 +98,7 @@ else:
 ARDUINO_BOARD   = resolve_var('ARDUINO_BOARD', 'atmega328')
 ARDUINO_VER     = resolve_var('ARDUINO_VER', 0) # Default to 0 if nothing is specified
 RST_TRIGGER     = resolve_var('RST_TRIGGER', None) # use built-in pulseDTR() by default
-EXTRA_LIB       = resolve_var('EXTRA_LIB', None) # handy for adding another arduino-lib dir
+EXTRA_LIB       = resolve_var('EXTRA_LIB', '~/Solutions/Arduino/libraries') # handy for adding another arduino-lib dir
 
 pprint(VARTAB, indent = 4)
 
@@ -367,6 +367,7 @@ else:
 # Upload
 UPLOAD_PROTOCOL = getBoardConf('upload.protocol')
 UPLOAD_SPEED = getBoardConf('upload.speed')
+UPLOAD_SPEED = '115200'
 
 if UPLOAD_PROTOCOL == 'stk500':
     UPLOAD_PROTOCOL = 'stk500v1'
