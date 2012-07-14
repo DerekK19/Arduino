@@ -95,7 +95,7 @@ else:
     AVR_HOME            = resolve_var('AVR_HOME', '')
 
 
-ARDUINO_BOARD   = resolve_var('ARDUINO_BOARD', 'atmega328')
+ARDUINO_BOARD   = resolve_var('ARDUINO_BOARD', 'uno')
 ARDUINO_VER     = resolve_var('ARDUINO_VER', 0) # Default to 0 if nothing is specified
 RST_TRIGGER     = resolve_var('RST_TRIGGER', None) # use built-in pulseDTR() by default
 EXTRA_LIB       = resolve_var('EXTRA_LIB', '~/Solutions/Arduino/libraries') # handy for adding another arduino-lib dir
