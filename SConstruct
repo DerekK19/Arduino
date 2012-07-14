@@ -75,7 +75,7 @@ if platform == 'darwin':
     # For MacOS X, pick up the AVR tools from within Arduino.app
     ARDUINO_HOME        = resolve_var('ARDUINO_HOME',
                                       '/Applications/Developer/Arduino.app/Contents/Resources/Java')
-    ARDUINO_PORT        = resolve_var('ARDUINO_PORT', getUsbTty('/dev/tty.usbserial*'))
+    ARDUINO_PORT        = resolve_var('ARDUINO_PORT', getUsbTty('/dev/tty.usbmodem*'))
     SKETCHBOOK_HOME     = resolve_var('SKETCHBOOK_HOME', '')
     AVR_HOME            = resolve_var('AVR_HOME',
                                       path.join(ARDUINO_HOME, 'hardware/tools/avr/bin'))
