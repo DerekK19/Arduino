@@ -24,3 +24,9 @@ local.properties
 
 # PDT-specific
 .buildpath
+
+#SCons-specific
+build
+.sconsign.dblite
+*.elf
+*.hex

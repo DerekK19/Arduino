@@ -66,7 +66,7 @@ all: Servo_Test.elf secondary-outputs
 Servo_Test.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C++ Linker'
-	avr-gcc -Os -Wl,--gc-sections  -L"/Users/derek/Arduino/Arduino_Uno/Release" -mmcu=atmega328p -o"Servo_Test.elf" $(OBJS) $(USER_OBJS) $(LIBS) -lm
+	avr-gcc -Os -Wl,--gc-sections  -L"/Users/derek/Solutions/Arduino/Arduino_Uno/Release" -mmcu=atmega328p -o"Servo_Test.elf" $(OBJS) $(USER_OBJS) $(LIBS) -lm
 	@echo 'Finished building target: $@'
 	@echo ' '
 

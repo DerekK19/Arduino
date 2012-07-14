@@ -5,8 +5,6 @@
 #include <Servo.h> 
 #include <LiquidCrystal.h>
 
-bool pan();
-
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
@@ -48,7 +46,7 @@ void setup()
   
   pinMode (7, INPUT);
   
-  xServo.attach(9);   // attaches the servo on pin 11 to the servo object 
+  xServo.attach(9);  // attaches the servo on pin 11 to the servo object 
   yServo.attach(10);  // attaches the servo on pin 12 to the servo object 
   x = -1;
   y = -1;
