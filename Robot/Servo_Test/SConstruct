@@ -367,7 +367,6 @@ else:
 # Upload
 UPLOAD_PROTOCOL = getBoardConf('upload.protocol')
 UPLOAD_SPEED = getBoardConf('upload.speed')
-UPLOAD_SPEED = '115200'
 
 if UPLOAD_PROTOCOL == 'stk500':
     UPLOAD_PROTOCOL = 'stk500v1'
