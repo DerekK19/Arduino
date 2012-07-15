@@ -31,3 +31,4 @@ build
 *.elf
 *.hex
 output.txt
+error.log

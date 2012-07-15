@@ -73,10 +73,11 @@ AVRDUDE_CONF = None
 
 if platform == 'darwin':
     # For MacOS X, pick up the AVR tools from within Arduino.app
+    # Note that we can't include ~ for the current user's home directory, must have absolute path DGK 15/7/12
     ARDUINO_HOME        = resolve_var('ARDUINO_HOME',
                                       '/Applications/Developer/Arduino.app/Contents/Resources/Java')
     ARDUINO_PORT        = resolve_var('ARDUINO_PORT', getUsbTty('/dev/tty.usbmodem*'))
-    SKETCHBOOK_HOME     = resolve_var('SKETCHBOOK_HOME', '')
+    SKETCHBOOK_HOME     = resolve_var('SKETCHBOOK_HOME', '/Users/derek/Solutions/Arduino')
     AVR_HOME            = resolve_var('AVR_HOME',
                                       path.join(ARDUINO_HOME, 'hardware/tools/avr/bin'))
 elif platform == 'win32':
@@ -98,7 +99,7 @@ else:
 ARDUINO_BOARD   = resolve_var('ARDUINO_BOARD', 'uno')
 ARDUINO_VER     = resolve_var('ARDUINO_VER', 0) # Default to 0 if nothing is specified
 RST_TRIGGER     = resolve_var('RST_TRIGGER', None) # use built-in pulseDTR() by default
-EXTRA_LIB       = resolve_var('EXTRA_LIB', '~/Solutions/Arduino/libraries') # handy for adding another arduino-lib dir
+EXTRA_LIB       = resolve_var('EXTRA_LIB', '') # handy for adding another arduino-lib dir
 
 pprint(VARTAB, indent = 4)
 
@@ -294,8 +295,8 @@ for line in open(TARGET + sketchExt):
     filename = result.group(1) + '.h'
     for libdir in ARDUINO_LIBS:
         for root, dirs, files in os.walk(libdir, followlinks=True):
-            if filename in files:
-                libCandidates.append(path.basename(root))
+           if filename in files:
+               libCandidates.append(path.basename(root))
 
 # Hack. In version 20 of the Arduino IDE, the Ethernet library depends
 # implicitly on the SPI library.
