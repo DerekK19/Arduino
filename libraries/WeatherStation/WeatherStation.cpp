@@ -40,6 +40,12 @@ int alignData();
 // The digital IO pin number of the receiver data
 static uint8_t RX_PIN = 8;
 
+// The data ready pin
+static uint8_t ACK_PIN = 6;
+
+// The data sync pin
+static uint8_t SYNC_PIN = 7;
+
 // The state machine;s current state
 int state = IDLE;			//Startup state is idle
 
@@ -47,6 +53,18 @@ int state = IDLE;			//Startup state is idle
 void ws_set_rx_pin(uint8_t pin)
 {
     RX_PIN = pin;
+}
+
+// Set the pin for the Data ready signal
+void ws_set_ack_pin(uint8_t pin)
+{
+    ACK_PIN = pin;
+}
+
+// Set the pin for the Data sync signal
+void ws_set_sync_pin(uint8_t pin)
+{
+    SYNC_PIN = pin;
 }
 
 int read_pin()
@@ -59,6 +77,11 @@ int read_pin()
 \brief Align the incoming packets with correct position in buffer
 **********************************************************************/
 int alignData() {
+
+		Serial.print("alignData: ");
+		int x =buffer[0];
+		Serial.println(x);
+
 	if(buffer[0] == 208)
 	{
 		//Alignment issue, need to delay some bits to get alignment
@@ -177,6 +200,7 @@ int decode() {
 	char *stringBuffer;
 	int result;
 
+Serial.println("decode");
 
 	for(i=0;i < BITS_TO_DECODE;i++) {
 		buffer[bufferPointer] <<= 1;	//Shift to next bit
@@ -186,7 +210,7 @@ int decode() {
 		if(read_pin() == 0) {
 			//Failed. Transmit how many bits we got through then return.
 			sprintf(stringBuffer,"Length = %d\r\n",i);
-			Serial.print(stringBuffer);
+			Serial.println(stringBuffer);
 			return -1;
 		}
 
@@ -230,24 +254,42 @@ int checkPreamble() {
 	int preambleCount = 0;
 	unsigned long lapsedTime, startTime;
 
-	// receive pin should already be in a low state at this stage
-	for(i=0;i<6;i++) {
-		while(!read_pin());	//Pin is in low state, wait here for a trigger
-					
-		startTime = millis();	//Trigger occured, start the timer
-		while(read_pin());	//Wait till the data line goes low
-		lapsedTime = millis()-startTime;
+//	Serial.println("Preamble?");
 
-		if(lapsedTime > THRESH05_LOW && lapsedTime < THRESH05_HIGH) {
+	digitalWrite(ACK_PIN, 1);
+
+	// receive pin should already be in a low state at this stage
+	for(i=0;i<6;i++)
+	{
+		while(!read_pin());		//Pin is in low state, wait here for it to go high
+		startTime = micros();	//Trigger occured, start the timer
+		while(read_pin());		//Wait till the data line goes low
+		lapsedTime = micros()-startTime;
+
+//	Serial.print(THRESH05_LOW);
+//	Serial.print(" | ");
+//	Serial.print(lapsedTime);
+//	Serial.print(" | ");
+//	Serial.print(THRESH05_HIGH);
+//	Serial.println("");
+
+		if(lapsedTime > THRESH05_LOW && lapsedTime < THRESH05_HIGH)
+		{
 			preambleCount++;	//Found another preamble so count up
 		}
+		else break;
 	}
 
+	Serial.println(preambleCount);
+
 	//Checking of preamble done. If count is higher than 6 then it is ok.
-	if(preambleCount >= 5) {
-		
+	if(preambleCount >= 5)
+	{
+		digitalWrite(SYNC_PIN, 1);
 		return PREAMBLE_FOUND;
-	}else{
+	}
+	else
+	{
 		return IDLE;
 	}
 }
@@ -264,12 +306,9 @@ void clearBuffer()
 	}
 }
 
-
 /**
 ********************************************************************
 \brief Main State Machine for decoding wireless
-
-
 **********************************************************************/
 void startWirelessWeather() {
 	unsigned long lapsedTime, startTime;
@@ -277,14 +316,22 @@ void startWirelessWeather() {
 	int result;
 
 	clearBuffer();
+	
+	pinMode(RX_PIN, INPUT);
+	pinMode(ACK_PIN, OUTPUT);
+	pinMode(SYNC_PIN, OUTPUT);
+
 	state=IDLE;
 }
 
 void getWirelessWeather()
 {
-	unsigned long lapsedTime, startTime;
+	unsigned long atLow, toHigh, toLow, lapsedTime1, lapsedTime2, startTime;
 	int i;
 	int result;
+	int preambleCount = 0;
+    digitalWrite(ACK_PIN, 0);
+    digitalWrite(SYNC_PIN, 0);
 	switch(state)
 	{
 		case IDLE:
@@ -292,18 +339,55 @@ void getWirelessWeather()
 			//Wait for pin to go high to low. When found see how long the pulse is.
 			//If pulse is 0.5ms long then see if there are another 7 of them.
 			while(read_pin());	//Wait till pin has actually gone low
-			while(!read_pin());	//Pin is in low state, wait here for a trigger
-					
-			startTime=millis();	//Trigger occured, start the timer
-			while(read_pin());	//Wait till the data line goes low
-			lapsedTime = millis()-startTime;
 
-			//If this pulse is 0.5ms, then check there are another 7 of them. If not, then reset.
-			if(lapsedTime > THRESH05_LOW && lapsedTime < THRESH05_HIGH) {
-				state = checkPreamble();
+			toLow = micros();
+			for(i=0;i<6;i++)
+			{
+				atLow = toLow;
+				while(!read_pin());		//Pin is in low state, wait here for it to go high
+				toHigh = micros();		//Trigger occured, start the timer
+				while(read_pin());		//Wait till the data line goes low
+				toLow = micros();
+				lapsedTime1 = toHigh-atLow;
+				lapsedTime2 = toLow-toHigh;
+
+				if(lapsedTime2 > THRESH05_LOW && lapsedTime2 < THRESH05_HIGH)
+				{
+//				    digitalWrite(ACK_PIN, 1);
+					preambleCount++;	//Found another preamble so count up
+				}
+				else
+				{
+					if (abs(lapsedTime1 - lapsedTime2) < 100)
+					{
+/*
+	Serial.print(preambleCount);
+	Serial.print(" ");
+	Serial.print(THRESH05_LOW);
+	Serial.print(" | ");
+	Serial.print(lapsedTime1);
+	Serial.print(" | ");
+	Serial.print(lapsedTime2);
+	Serial.print(" | ");
+	Serial.print(THRESH05_HIGH);
+	Serial.println("");
+*/
+					}
+				 	break;
+				}
+			}
+			//Checking of preamble done. If count is higher than 6 then it is ok.
+			if(preambleCount >= 6)
+			{
+				digitalWrite(SYNC_PIN, 1);
+				state = PREAMBLE_FOUND;
+			}
+			else
+			{
+				state = IDLE;
 			}
 			break;
-
+		
 		case PREAMBLE_FOUND:
 			//At this stage we have confirmed that the correct preamble has been received. Now we go about
 			//Decoding the rest of the data. The receive pin should currently be in a low state. There are about 80 bits to decode.
@@ -313,7 +397,7 @@ void getWirelessWeather()
 			if(result ==0) {
 				state = PARSE;
 			}else{
-				Serial.println("Error\r\n");
+				Serial.println("Error");
 				state = IDLE;
 				clearBuffer();
 			}
