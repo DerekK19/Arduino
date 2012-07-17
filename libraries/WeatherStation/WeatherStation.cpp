@@ -72,6 +72,10 @@ int read_pin()
     return digitalRead(RX_PIN);
 }
 
+#define PIN8_VALUE ((*portInputRegister(2) & 1) == 1 ? HIGH : LOW)
+#define PIN8_HIGH ((*portInputRegister(2) & 1) == 1)
+#define PIN8_LOW ((*portInputRegister(2) & 1) == 0)
+
 /**
 ********************************************************************
 \brief Align the incoming packets with correct position in buffer
@@ -85,30 +89,30 @@ int alignData() {
 	if(buffer[0] == 208)
 	{
 		//Alignment issue, need to delay some bits to get alignment
-		while(read_pin());	//Wait till pin goes low
-		while(!read_pin()); //Wait till pin goes high
-		while(read_pin());	//Wait till pin goes low		
+		while(PIN8_HIGH);	//Wait till pin goes low
+		while(PIN8_LOW); //Wait till pin goes high
+		while(PIN8_HIGH);	//Wait till pin goes low		
 	}
 	else if(buffer[0] == 232)
 	{
-		while(read_pin());	//Wait till pin goes low
-		while(!read_pin()); //Wait till pin goes high
-		while(read_pin());	//Wait till pin goes low
+		while(PIN8_HIGH);	//Wait till pin goes low
+		while(PIN8_LOW); //Wait till pin goes high
+		while(PIN8_HIGH);	//Wait till pin goes low
 
-		while(!read_pin()); //Wait till pin goes high
-		while(read_pin());	//Wait till pin goes low
+		while(PIN8_LOW); //Wait till pin goes high
+		while(PIN8_HIGH);	//Wait till pin goes low
 	}
 	else if(buffer[0] == 244)
 	{
-		while(read_pin());	//Wait till pin goes low
-		while(!read_pin()); //Wait till pin goes high
-		while(read_pin());	//Wait till pin goes low
+		while(PIN8_HIGH);	//Wait till pin goes low
+		while(PIN8_LOW); //Wait till pin goes high
+		while(PIN8_HIGH);	//Wait till pin goes low
 
-		while(!read_pin()); //Wait till pin goes high
-		while(read_pin());	//Wait till pin goes low
+		while(PIN8_LOW); //Wait till pin goes high
+		while(PIN8_HIGH);	//Wait till pin goes low
 
-		while(!read_pin()); //Wait till pin goes high
-		while(read_pin());	//Wait till pin goes low
+		while(PIN8_LOW); //Wait till pin goes high
+		while(PIN8_HIGH);	//Wait till pin goes low
 	}
 	else if(buffer[0] == 161)
 	{
@@ -197,7 +201,6 @@ int decode() {
 	unsigned char temp;
 	int bufferPointer = 0;
 	int bitCount = 0;
-	char *stringBuffer;
 	int result;
 
 Serial.println("decode");
@@ -205,17 +208,20 @@ Serial.println("decode");
 	for(i=0;i < BITS_TO_DECODE;i++) {
 		buffer[bufferPointer] <<= 1;	//Shift to next bit
 
-		while(!read_pin());	//Pin is in low state, wait here for a trigger
+		while(PIN8_LOW);	//Pin is in low state, wait here for a trigger
 		delayMicroseconds(250);
-		if(read_pin() == 0) {
+		if(PIN8_LOW) {
 			//Failed. Transmit how many bits we got through then return.
-			sprintf(stringBuffer,"Length = %d\r\n",i);
-			Serial.println(stringBuffer);
+
+			Serial.print("Length = ");
+			Serial.print(i);
+			Serial.print(" ");
+
 			return -1;
 		}
 
 		delayMicroseconds(750);
-		temp = read_pin();		//The state of the pin measured here determines the logic level. 1 = logic 0
+		temp = PIN8_VALUE;		//The state of the pin measured here determines the logic level. 1 = logic 0
 
 		if(temp > 0) {
 			//Do nothing as the zero is already there. Just shift byte
@@ -238,7 +244,7 @@ Serial.println("decode");
 			bufferPointer++;
 		}
 
-		while(read_pin());	//Wait here till the pin goes low again.
+		while(PIN8_HIGH);	//Wait here till the pin goes low again.
 
 	}
 
@@ -261,9 +267,9 @@ int checkPreamble() {
 	// receive pin should already be in a low state at this stage
 	for(i=0;i<6;i++)
 	{
-		while(!read_pin());		//Pin is in low state, wait here for it to go high
+		while(PIN8_LOW);		//Pin is in low state, wait here for it to go high
 		startTime = micros();	//Trigger occured, start the timer
-		while(read_pin());		//Wait till the data line goes low
+		while(PIN8_HIGH);		//Wait till the data line goes low
 		lapsedTime = micros()-startTime;
 
 //	Serial.print(THRESH05_LOW);
@@ -338,15 +344,15 @@ void getWirelessWeather()
 //			Serial.println("IDLE");
 			//Wait for pin to go high to low. When found see how long the pulse is.
 			//If pulse is 0.5ms long then see if there are another 7 of them.
-			while(read_pin());	//Wait till pin has actually gone low
+			while(PIN8_HIGH);	//Wait till pin has actually gone low
 
 			toLow = micros();
 			for(i=0;i<6;i++)
 			{
 				atLow = toLow;
-				while(!read_pin());		//Pin is in low state, wait here for it to go high
+				while(PIN8_LOW);		//Pin is in low state, wait here for it to go high
 				toHigh = micros();		//Trigger occured, start the timer
-				while(read_pin());		//Wait till the data line goes low
+				while(PIN8_HIGH);		//Wait till the data line goes low
 				toLow = micros();
 				lapsedTime1 = toHigh-atLow;
 				lapsedTime2 = toLow-toHigh;

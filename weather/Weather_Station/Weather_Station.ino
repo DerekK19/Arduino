@@ -6,7 +6,7 @@ void setup()
 {
   Serial.begin(9600);
   Serial.println();
-  Serial.println ("Weather station test program");
+  Serial.println ("\n\n[Weather station test program]");
   startWirelessWeather();
 }
 
