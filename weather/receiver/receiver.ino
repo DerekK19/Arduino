@@ -9,7 +9,7 @@
 // include the library code:
 #include <VirtualWire.h>
 
-#define ERROR_PIN 9
+#define ERROR_PIN 6
 #define BUSY_PIN 7
 #define RX_PIN 8
 
