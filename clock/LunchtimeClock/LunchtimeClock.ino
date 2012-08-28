@@ -11,7 +11,7 @@ int strength2 = 250; // Any lower and we get a whistle from the mechanism
 
 bool nearlyLunchtime();
 void TurnTurnTurn(int timeToWait);
-void digitalTTurnTurnTurn(int timeToWait);
+void digitalTurnTurnTurn(int timeToWait);
 byte decToBcd(byte val);
 byte bcdToDec(byte val);
 void getDateDs1307(byte *second,
