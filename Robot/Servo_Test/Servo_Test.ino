@@ -5,12 +5,52 @@
 #include <Servo.h> 
 #include <LiquidCrystal.h>
 
+#define LCD1 12
+#define LCD2 11
+#define LCD3 7
+#define LCD4 6
+#define LCD5 5
+#define LCD6 4
+
+#define SWITCH_PIN 13
+#define XSERVO_PIN 8
+#define YSERVO_PIN 10
+
+#define RANGE_PIN A0
+
+#define OUTA_LEFT 12
+#define OUTB_LEFT 11
+#define OUTA_RIGHT 6
+#define OUTB_RIGHT 7
+//#define BIN1 5
+//#define AIN1 4
+//#define BIN2 6
+//#define AIN2 7
+
+#define SR_DATA 2
+#define SR_LATCH 4
+#define SR_CLOCK 3
+
+#define SR_PWMA 1
+#define SR_AIN2 2
+#define SR_AIN1 3
+#define SR_STBY 4
+#define SR_BIN1 5
+#define SR_BIN2 6
+#define SR_PWMB 7
+
+#define ADVANCE 1
+#define REVERSE 2
+#define STOP 0
+
+void testMotors();
+void motor(int motorA, int motorB);
 bool pan();
 
 // initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+// LiquidCrystal lcd(LCD1, LCD2, LCD3, LCD4, LCD5, LCD6);
 
-int sensorPin = A0;
+int sensorPin = RANGE_PIN;
 
 Servo xServo;  // create servo object to control a servo 
                 // a maximum of eight servo objects can be created 
@@ -45,11 +85,18 @@ int nearY = 0;
 void setup() 
 {
   Serial.begin(9600);
+  Serial.println("");
+  Serial.println("Robot test system");
+  delay(5000);
   
-  pinMode (7, INPUT);
+  pinMode (RANGE_PIN, INPUT);
+
+  pinMode (SR_DATA, OUTPUT);
+  pinMode (SR_LATCH, OUTPUT);
+  pinMode (SR_CLOCK, OUTPUT);
   
-  xServo.attach(9);   // attaches the servo on pin 11 to the servo object 
-  yServo.attach(10);  // attaches the servo on pin 12 to the servo object 
+  xServo.attach(XSERVO_PIN);  // attaches the servo on XSERVO_PIN to the servo object 
+  yServo.attach(YSERVO_PIN);  // attaches the servo on YSERVO_PIN to the servo object 
   x = -1;
   y = -1;
   run = 0;
@@ -58,15 +105,17 @@ void setup()
   nearX = startX;
   nearY = startY;
 
-  lcd.begin(16, 2);
-  lcd.clear();
+  testMotors();
+  
+//  lcd.begin(16, 2);
+//  lcd.clear();
 } 
  
 // Function runs continuously
 void loop() 
 {
   // Check for the toggle switch. If it changes from Low to High, pause or resume running
-  if (digitalRead(7) == LOW)
+  if (digitalRead(SWITCH_PIN) == LOW)
   {
     toggle = 1;
   }
@@ -74,7 +123,7 @@ void loop()
   {
     toggle = 0;
     run = 1-run;
-    if (run == 0) lcd.clear();
+//    if (run == 0) lcd.clear();
   }
   if (run == 0) return;
   
@@ -86,7 +135,7 @@ void loop()
   else
   {
     run = 0;
-    lcd.clear();
+//    lcd.clear();
     return;
   }
   
@@ -99,7 +148,7 @@ void loop()
     nearY = y;
   }
   
-  display(x, y, d, near, nearX, nearY, rangeX, rangeY);  
+//  display(x, y, d, near, nearX, nearY, rangeX, rangeY);  
   
   if (scanned)
   {
@@ -162,6 +211,60 @@ void loop()
   }
 }
 
+// Rotate the motors
+void motor(int motorA, int motorB)
+{
+	digitalWrite(SR_LATCH, LOW);
+	int value = 1;										// For PWMA
+	value = value * 2 + (motorA == REVERSE ? 1 : 0);	// For AIN2
+	value = value * 2 + (motorA == ADVANCE ? 1 : 0);	// For AIN1
+	value = value * 2 + 1;								// For STBY
+	value = value * 2 + (motorB == ADVANCE ? 1 : 0);	// For BIN1
+	value = value * 2 + (motorB == REVERSE ? 1 : 0);	// For BIN2
+	value = value * 2 + 1;								// For PWMB
+	value = value * 2;									// For unused bit 8
+//	Serial.println(value);
+	shiftOut(SR_DATA, SR_CLOCK, MSBFIRST, value);
+	digitalWrite(SR_LATCH, HIGH);
+}
+
+void testMotors()
+{
+#define RUN 150
+#define PAUSE 1000
+#define WAIT 2000
+  Serial.println("Right forward");
+  motor(ADVANCE, STOP);
+  delay(RUN);
+  motor(STOP, STOP);
+  delay(PAUSE);
+  Serial.println("Left forward");
+  motor(REVERSE, STOP);
+  delay(RUN);
+  motor(STOP, STOP);
+  delay(WAIT);
+  Serial.println("Right forward");
+  motor(STOP, ADVANCE);
+  delay(RUN);
+  motor(STOP, STOP);
+  delay(PAUSE);
+  Serial.println("Right backward");
+  motor(STOP, REVERSE);
+  delay(RUN);
+  motor(STOP, STOP);
+  delay(WAIT);
+  Serial.println("Both forward");
+  motor(ADVANCE, ADVANCE);
+  delay(RUN);
+  motor(STOP, STOP);
+  delay(PAUSE);
+  Serial.println("Both backward");
+  motor(REVERSE, REVERSE);
+  delay(RUN);
+  motor(STOP, STOP);
+  
+}
+
 // Look round the area bounded by minX,minY - maxX,maxY
 // x,y is the current position, it will be incremented by incrX,incrY
 bool pan()
@@ -220,6 +323,7 @@ int distance()
 // Display results
 void display(int x, int y, int d, int near, int nearX, int nearY, int rangeX, int rangeY)
 {
+/*
   lcd.setCursor(0, 0);  
   lcd.write("    ");
   lcd.setCursor(0, 1);  
@@ -253,4 +357,5 @@ void display(int x, int y, int d, int near, int nearX, int nearY, int rangeX, in
   lcd.print(rangeX);
   lcd.setCursor(12, 1);  
   lcd.print(rangeY);
+*/
 }
