@@ -4,20 +4,22 @@
 
 #include <ServoTimer2.h>
 #include <VirtualWire.h>
-#include <PololuWheelEncoders.h>
+//#include "Encoder.ino"
 
-#define DEBUG FALSE
+#define DEBUG TRUE
 
 #if DEBUG == TRUE
-#define debugBegin()	Serial.begin(9600)
-#define debugWrite(x)	Serial.write(x)
-#define debugPrint(x)	Serial.print(x)
-#define debugPrintln	Serial.println
+#define debugBegin()		Serial.begin(9600)
+#define debugWrite(x)		Serial.write(x)
+#define debugPrint(x)		Serial.print(x)
+#define debugPrintln		Serial.println
+#define debugPrintDECln(x)	Serial.println(x, DEC)
 #else
 #define debugBegin()
 #define debugWrite(x)
 #define debugPrint(x)
 #define debugPrintln
+#define debugPrintDECln(x)
 #endif
 
 #define SWITCH_PIN 13
@@ -66,6 +68,8 @@ ServoTimer2 xServo;  // create servo object to control a servo
                		 // a maximum of eight servo objects can be created 
 ServoTimer2 yServo;  // create servo object to control a servo 
                		 // a maximum of eight servo objects can be created 
+Encoder leftEnc (OUTA_LEFT, OUTB_LEFT);
+Encoder rightEnc (OUTA_RIGHT, OUTB_RIGHT);
  
 int run = 0;
 int toggle = 0;
@@ -97,7 +101,6 @@ void setup()
   debugBegin();
   debugPrintln("");
   debugPrintln("Robot test system");
-  delay(5000);
   
   pinMode (RANGE_PIN, INPUT);
 
@@ -107,11 +110,19 @@ void setup()
   
   pinMode (VW_PIN, OUTPUT);
   
+  leftEnc.start();
+  rightEnc.start();
+
+  delay(5000);
+  
   diagSetup();
   diagClear();
   
   xServo.attach(XSERVO_PIN);  // attaches the servo on XSERVO_PIN to the servo object 
   yServo.attach(YSERVO_PIN);  // attaches the servo on YSERVO_PIN to the servo object 
+  
+//  enc.init (OUTA_LEFT, OUTB_LEFT, OUTA_RIGHT, OUTB_RIGHT);
+  
   x = -1;
   y = -1;
   run = 0;
@@ -245,6 +256,8 @@ void testMotors()
 #define RUN 150
 #define PAUSE 1000
 #define WAIT 2000
+  debugPrintDECln(leftEnc.read());
+  debugPrintDECln(rightEnc.read());
   debugPrintln("Right forward");
   motor(ADVANCE, STOP);
   delay(RUN);
@@ -254,6 +267,8 @@ void testMotors()
   motor(REVERSE, STOP);
   delay(RUN);
   motor(STOP, STOP);
+  debugPrintDECln(leftEnc.read());
+  debugPrintDECln(rightEnc.read());
   delay(WAIT);
   debugPrintln("Right forward");
   motor(STOP, ADVANCE);
