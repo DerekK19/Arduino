@@ -2,15 +2,23 @@
 // by BARRAGAN <http://barraganstudio.com> 
 // This example code is in the public domain.
 
-#include <Servo.h> 
-#include <LiquidCrystal.h>
+#include <ServoTimer2.h>
+#include <VirtualWire.h>
+#include <PololuWheelEncoders.h>
 
-#define LCD1 12
-#define LCD2 11
-#define LCD3 7
-#define LCD4 6
-#define LCD5 5
-#define LCD6 4
+#define DEBUG FALSE
+
+#if DEBUG == TRUE
+#define debugBegin()	Serial.begin(9600)
+#define debugWrite(x)	Serial.write(x)
+#define debugPrint(x)	Serial.print(x)
+#define debugPrintln	Serial.println
+#else
+#define debugBegin()
+#define debugWrite(x)
+#define debugPrint(x)
+#define debugPrintln
+#endif
 
 #define SWITCH_PIN 13
 #define XSERVO_PIN 8
@@ -22,14 +30,12 @@
 #define OUTB_LEFT 11
 #define OUTA_RIGHT 6
 #define OUTB_RIGHT 7
-//#define BIN1 5
-//#define AIN1 4
-//#define BIN2 6
-//#define AIN2 7
 
 #define SR_DATA 2
 #define SR_LATCH 4
 #define SR_CLOCK 3
+
+#define VW_PIN 5
 
 #define SR_PWMA 1
 #define SR_AIN2 2
@@ -43,24 +49,28 @@
 #define REVERSE 2
 #define STOP 0
 
+#define VW_SPEED 2000
+#define DEBUG_SPEED 9600
+
 void testMotors();
 void motor(int motorA, int motorB);
 bool pan();
-
-// initialize the library with the numbers of the interface pins
-// LiquidCrystal lcd(LCD1, LCD2, LCD3, LCD4, LCD5, LCD6);
+void diagSetup();
+void diagWrite(int x, int y, char *t);
+void diagPrint(int x, int y, int i);
+void diagDisplay(int x, int y, int d, int near, int nearX, int nearY, int rangeX, int rangeY);
 
 int sensorPin = RANGE_PIN;
 
-Servo xServo;  // create servo object to control a servo 
-                // a maximum of eight servo objects can be created 
-Servo yServo;  // create servo object to control a servo 
-                // a maximum of eight servo objects can be created 
+ServoTimer2 xServo;  // create servo object to control a servo 
+               		 // a maximum of eight servo objects can be created 
+ServoTimer2 yServo;  // create servo object to control a servo 
+               		 // a maximum of eight servo objects can be created 
  
 int run = 0;
 int toggle = 0;
 
-int x = 0;    // variables to store the servo positions 
+int x = 0;     		 // variables to store the servo positions 
 int y = 0;
 int loX = 30;
 int hiX = 150;
@@ -84,9 +94,9 @@ int nearY = 0;
 // Function run once on startup
 void setup() 
 {
-  Serial.begin(9600);
-  Serial.println("");
-  Serial.println("Robot test system");
+  debugBegin();
+  debugPrintln("");
+  debugPrintln("Robot test system");
   delay(5000);
   
   pinMode (RANGE_PIN, INPUT);
@@ -94,6 +104,11 @@ void setup()
   pinMode (SR_DATA, OUTPUT);
   pinMode (SR_LATCH, OUTPUT);
   pinMode (SR_CLOCK, OUTPUT);
+  
+  pinMode (VW_PIN, OUTPUT);
+  
+  diagSetup();
+  diagClear();
   
   xServo.attach(XSERVO_PIN);  // attaches the servo on XSERVO_PIN to the servo object 
   yServo.attach(YSERVO_PIN);  // attaches the servo on YSERVO_PIN to the servo object 
@@ -105,10 +120,7 @@ void setup()
   nearX = startX;
   nearY = startY;
 
-  testMotors();
-  
-//  lcd.begin(16, 2);
-//  lcd.clear();
+  testMotors();  
 } 
  
 // Function runs continuously
@@ -123,7 +135,7 @@ void loop()
   {
     toggle = 0;
     run = 1-run;
-//    if (run == 0) lcd.clear();
+    if (run == 0) diagClear();
   }
   if (run == 0) return;
   
@@ -135,7 +147,7 @@ void loop()
   else
   {
     run = 0;
-//    lcd.clear();
+    diagClear();
     return;
   }
   
@@ -148,15 +160,15 @@ void loop()
     nearY = y;
   }
   
-//  display(x, y, d, near, nearX, nearY, rangeX, rangeY);  
+  diagDisplay(x, y, d, near, nearX, nearY, rangeX, rangeY);  
   
   if (scanned)
   {
-    Serial.print("Near ");
-    Serial.print(nearX);
-    Serial.write(",");
-    Serial.print(nearY);
-    Serial.println("");
+    debugPrint("Near ");
+    debugPrint(nearX);
+    debugWrite(",");
+    debugPrint(nearY);
+    debugPrintln("");
     
     if (nearX > 0 && nearY > 0)
     {
@@ -169,30 +181,30 @@ void loop()
       if (nearY < minY+rangeY) nearY = minY + rangeY;
       if (nearY > maxY-rangeY) nearY = maxY - rangeY;
     
-      Serial.print("-> ");
-      Serial.print(nearX);
-      Serial.write(",");
-      Serial.print(nearY);
-      Serial.println("");
+      debugPrint("-> ");
+      debugPrint(nearX);
+      debugWrite(",");
+      debugPrint(nearY);
+      debugPrintln("");
 
       minX = nearX - rangeX;
       maxX = nearX + rangeX;
       minY = nearY - rangeY;
       maxY = nearY + rangeY;
     
-      Serial.print("New box ");
-      Serial.print(minX);
-      Serial.write(",");
-      Serial.print(minY);
-      Serial.print(" - ");
-      Serial.print(maxX);
-      Serial.write(",");
-      Serial.print(maxY);
-      Serial.print(" (");
-      Serial.print(rangeX);
-      Serial.write(",");
-      Serial.print(rangeY);
-      Serial.println(")");
+      debugPrint("New box ");
+      debugPrint(minX);
+      debugWrite(",");
+      debugPrint(minY);
+      debugPrint(" - ");
+      debugPrint(maxX);
+      debugWrite(",");
+      debugPrint(maxY);
+      debugPrint(" (");
+      debugPrint(rangeX);
+      debugWrite(",");
+      debugPrint(rangeY);
+      debugPrintln(")");
     }
     
     near = 10000;
@@ -223,7 +235,7 @@ void motor(int motorA, int motorB)
 	value = value * 2 + (motorB == REVERSE ? 1 : 0);	// For BIN2
 	value = value * 2 + 1;								// For PWMB
 	value = value * 2;									// For unused bit 8
-//	Serial.println(value);
+//	debugPrintln(value);
 	shiftOut(SR_DATA, SR_CLOCK, MSBFIRST, value);
 	digitalWrite(SR_LATCH, HIGH);
 }
@@ -233,36 +245,35 @@ void testMotors()
 #define RUN 150
 #define PAUSE 1000
 #define WAIT 2000
-  Serial.println("Right forward");
+  debugPrintln("Right forward");
   motor(ADVANCE, STOP);
   delay(RUN);
   motor(STOP, STOP);
   delay(PAUSE);
-  Serial.println("Left forward");
+  debugPrintln("Left forward");
   motor(REVERSE, STOP);
   delay(RUN);
   motor(STOP, STOP);
   delay(WAIT);
-  Serial.println("Right forward");
+  debugPrintln("Right forward");
   motor(STOP, ADVANCE);
   delay(RUN);
   motor(STOP, STOP);
   delay(PAUSE);
-  Serial.println("Right backward");
+  debugPrintln("Right backward");
   motor(STOP, REVERSE);
   delay(RUN);
   motor(STOP, STOP);
   delay(WAIT);
-  Serial.println("Both forward");
+  debugPrintln("Both forward");
   motor(ADVANCE, ADVANCE);
   delay(RUN);
   motor(STOP, STOP);
   delay(PAUSE);
-  Serial.println("Both backward");
+  debugPrintln("Both backward");
   motor(REVERSE, REVERSE);
   delay(RUN);
   motor(STOP, STOP);
-  
 }
 
 // Look round the area bounded by minX,minY - maxX,maxY
@@ -290,14 +301,14 @@ bool pan()
   yServo.write(y);              // tell Y servo to go to position in variable 'y' 
   delay(speed);                 // waits for the servo to reach the position
   
-  Serial.print(x);
-  Serial.write(",");
-  Serial.print(y);
-  Serial.write(" -> ");
-  Serial.print(maxX);
-  Serial.write(",");
-  Serial.print(maxY);
-  Serial.println("");
+  debugPrint(x);
+  debugWrite(",");
+  debugPrint(y);
+  debugWrite(" -> ");
+  debugPrint(maxX);
+  debugWrite(",");
+  debugPrint(maxY);
+  debugPrintln("");
   
   return x == maxX && y == maxY ? 1 : 0;
 }
@@ -320,42 +331,62 @@ int distance()
   return cm;
 }
 
-// Display results
-void display(int x, int y, int d, int near, int nearX, int nearY, int rangeX, int rangeY)
+void diagSetup()
 {
-/*
-  lcd.setCursor(0, 0);  
-  lcd.write("    ");
-  lcd.setCursor(0, 1);  
-  lcd.write("    ");
-  lcd.setCursor(4,0);
-  lcd.write("    ");
-  lcd.setCursor(4,1);
-  lcd.write("    ");
-  lcd.setCursor(8,0);
-  lcd.write("    ");
-  lcd.setCursor(8,1);
-  lcd.write("    ");
-  lcd.setCursor(12,0);
-  lcd.write("    ");
-  lcd.setCursor(12,1);
-  lcd.write("    ");
+//  lcd.begin(16, 2);
+  // Initialise the IO and ISR
+  vw_set_ptt_inverted(true); // Required for DR3100
+  vw_set_tx_pin(VW_PIN);
+  vw_setup(VW_SPEED);	 // Bits per sec
+  vw_send((uint8_t *)"RBT INIT", 8);
+  vw_wait_tx(); // Wait until the whole message is gone
+}
+
+void diagClear()
+{
+//  lcd.clear();
+  vw_send((uint8_t *)"RBT CLEAR", 9);
+  vw_wait_tx(); // Wait until the whole message is gone
+}
+
+void diagWrite(int x, int y, char *t)
+{
+//  lcd.setCursor(x, y);
+//  lcd.write(t);
+  char buf[128];
+  sprintf(buf, "RBT %02hi %02hi %s", x, y, t);
+  vw_send((uint8_t *)buf, strlen(buf));
+  vw_wait_tx(); // Wait until the whole message is gone
+}
+
+void diagPrint(int x, int y, int i)
+{
+//  lcd.setCursor(x, y);
+//  lcd.print(i);
+  char buf[128];
+  sprintf(buf, "RBT %02hi %02hi %d", x, y, i);
+  vw_send((uint8_t *)buf, strlen(buf));
+  vw_wait_tx(); // Wait until the whole message is gone
+}
+
+// Display results
+void diagDisplay(int x, int y, int d, int near, int nearX, int nearY, int rangeX, int rangeY)
+{
+  diagWrite(0, 0, "    ");
+  diagWrite(0, 1, "    ");
+  diagWrite(4, 0, "    ");
+  diagWrite(4, 1, "    ");
+  diagWrite(8, 0, "    ");
+  diagWrite(8, 1, "    ");
+  diagWrite(12,0, "    ");
+  diagWrite(12,1, "    ");
   
-  lcd.setCursor(0, 0);  
-  lcd.print(x);
-  lcd.setCursor(0, 1);  
-  lcd.print(y);
-  lcd.setCursor(4, 0);  
-  lcd.print(nearX);
-  lcd.setCursor(4, 1);  
-  lcd.print(nearY);
-  lcd.setCursor(8,0);
-  lcd.print(d);
-  lcd.setCursor(8,1);
-  lcd.print(near < 10000 ? near : -1);
-  lcd.setCursor(12, 0);  
-  lcd.print(rangeX);
-  lcd.setCursor(12, 1);  
-  lcd.print(rangeY);
-*/
+  diagPrint(0, 0, x);
+  diagPrint(0, 1, y);
+  diagPrint(4, 0, nearX);
+  diagPrint(4, 1, nearY);
+  diagPrint(8, 0, d);
+  diagPrint(8, 1, near < 10000 ? near : -1);
+  diagPrint(12,0, rangeX);
+  diagPrint(12,1, rangeY);
 }
