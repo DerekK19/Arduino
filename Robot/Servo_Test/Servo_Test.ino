@@ -6,6 +6,7 @@
 #include <VirtualWire.h>
 
 #define DEBUG TRUE
+#define DIAG FALSE
 
 #if DEBUG == TRUE
 #define debugBegin()		Serial.begin(9600)
@@ -137,7 +138,7 @@ void setup()
   nearX = startX;
   nearY = startY;
 
-//  testMotors();  
+  testMotors();  
 } 
  
 // Function runs continuously
@@ -364,44 +365,53 @@ int distance()
 void diagSetup()
 {
 //  lcd.begin(16, 2);
+#if DIAG
   // Initialise the IO and ISR
   vw_set_ptt_inverted(true); // Required for DR3100
   vw_set_tx_pin(VW_PIN);
   vw_setup(VW_SPEED);	 // Bits per sec
-  vw_send((uint8_t *)"RBT INIT", 8);
+  vw_send((uint8_t *)"LCD INIT", 8);
   vw_wait_tx(); // Wait until the whole message is gone
+#endif
 }
 
 void diagClear()
 {
 //  lcd.clear();
-  vw_send((uint8_t *)"RBT CLEAR", 9);
+#if DIAG
+  vw_send((uint8_t *)"LCD CLEAR", 9);
   vw_wait_tx(); // Wait until the whole message is gone
+#endif
 }
 
 void diagWrite(int x, int y, char *t)
 {
 //  lcd.setCursor(x, y);
 //  lcd.write(t);
+#if DIAG
   char buf[128];
-  sprintf(buf, "RBT %02hi %02hi %s", x, y, t);
+  sprintf(buf, "LCD OUT %02hi %02hi %s", x, y, t);
   vw_send((uint8_t *)buf, strlen(buf));
   vw_wait_tx(); // Wait until the whole message is gone
+#endif
 }
 
 void diagPrint(int x, int y, int i)
 {
 //  lcd.setCursor(x, y);
 //  lcd.print(i);
+#if DIAG
   char buf[128];
-  sprintf(buf, "RBT %02hi %02hi %d", x, y, i);
+  sprintf(buf, "LCD OUT %02hi %02hi %d", x, y, i);
   vw_send((uint8_t *)buf, strlen(buf));
   vw_wait_tx(); // Wait until the whole message is gone
+#endif
 }
 
 // Display results
 void diagDisplay(int x, int y, int d, int near, int nearX, int nearY, int rangeX, int rangeY)
 {
+#if DIAG
   diagWrite(0, 0, "    ");
   diagWrite(0, 1, "    ");
   diagWrite(4, 0, "    ");
@@ -419,4 +429,5 @@ void diagDisplay(int x, int y, int d, int near, int nearX, int nearY, int rangeX
   diagPrint(8, 1, near < 10000 ? near : -1);
   diagPrint(12,0, rangeX);
   diagPrint(12,1, rangeY);
+#endif
 }
