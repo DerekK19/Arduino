@@ -4,7 +4,6 @@
 
 #include <ServoTimer2.h>
 #include <VirtualWire.h>
-//#include "Encoder.ino"
 
 #define DEBUG TRUE
 
@@ -14,30 +13,32 @@
 #define debugPrint(x)		Serial.print(x)
 #define debugPrintln		Serial.println
 #define debugPrintDECln(x)	Serial.println(x, DEC)
+#define debugPrintHEXln(x)	Serial.println(x, HEX)
 #else
 #define debugBegin()
 #define debugWrite(x)
 #define debugPrint(x)
 #define debugPrintln
 #define debugPrintDECln(x)
+#define debugPrintHEXln(x)
 #endif
 
 #define SWITCH_PIN 13
 #define XSERVO_PIN 8
 #define YSERVO_PIN 10
 
-#define RANGE_PIN A0
+#define RANGE_PIN A5
 
 #define OUTA_LEFT 12
 #define OUTB_LEFT 11
-#define OUTA_RIGHT 6
-#define OUTB_RIGHT 7
+#define OUTA_RIGHT 3
+#define OUTB_RIGHT 2
 
-#define SR_DATA 2
-#define SR_LATCH 4
-#define SR_CLOCK 3
+#define SR_DATA 5
+#define SR_LATCH 6
+#define SR_CLOCK 7
 
-#define VW_PIN 5
+#define VW_PIN 4
 
 #define SR_PWMA 1
 #define SR_AIN2 2
@@ -53,6 +54,11 @@
 
 #define VW_SPEED 2000
 #define DEBUG_SPEED 9600
+
+#define MIN_PULSE  750
+#define MAX_PULSE  2250
+
+#define DEGREES_TO_PW(v) (map(v, 0, 180, MIN_PULSE, MAX_PULSE))
 
 void testMotors();
 void motor(int motorA, int motorB);
@@ -131,7 +137,7 @@ void setup()
   nearX = startX;
   nearY = startY;
 
-  testMotors();  
+//  testMotors();  
 } 
  
 // Function runs continuously
@@ -239,14 +245,14 @@ void motor(int motorA, int motorB)
 {
 	digitalWrite(SR_LATCH, LOW);
 	int value = 1;										// For PWMA
-	value = value * 2 + (motorA == REVERSE ? 1 : 0);	// For AIN2
-	value = value * 2 + (motorA == ADVANCE ? 1 : 0);	// For AIN1
-	value = value * 2 + 1;								// For STBY
-	value = value * 2 + (motorB == ADVANCE ? 1 : 0);	// For BIN1
-	value = value * 2 + (motorB == REVERSE ? 1 : 0);	// For BIN2
-	value = value * 2 + 1;								// For PWMB
-	value = value * 2;									// For unused bit 8
-//	debugPrintln(value);
+	value = (value << 1) + (motorA == REVERSE ? 1 : 0);	// For AIN2
+	value = (value << 1) + (motorA == ADVANCE ? 1 : 0);	// For AIN1
+	value = (value << 1) + 1;							// For STBY
+	value = (value << 1) + (motorB == ADVANCE ? 1 : 0);	// For BIN1
+	value = (value << 1) + (motorB == REVERSE ? 1 : 0);	// For BIN2
+	value = (value << 1) + 1;							// For PWMB
+	value = (value << 1);								// For unused bit 8
+	debugPrintHEXln(value);
 	shiftOut(SR_DATA, SR_CLOCK, MSBFIRST, value);
 	digitalWrite(SR_LATCH, HIGH);
 }
@@ -256,11 +262,14 @@ void testMotors()
 #define RUN 150
 #define PAUSE 1000
 #define WAIT 2000
+  delay(WAIT);
   debugPrintDECln(leftEnc.read());
   debugPrintDECln(rightEnc.read());
-  debugPrintln("Right forward");
+  debugPrintln("Left forward");
   motor(ADVANCE, STOP);
   delay(RUN);
+  debugPrintDECln(leftEnc.read());
+  debugPrintDECln(rightEnc.read());
   motor(STOP, STOP);
   delay(PAUSE);
   debugPrintln("Left forward");
@@ -312,18 +321,24 @@ bool pan()
   if (y < minY) y = minY;
   if (y > maxY) y = maxY;
   
-  xServo.write(x);              // tell X servo to go to position in variable 'x' 
-  yServo.write(y);              // tell Y servo to go to position in variable 'y' 
+  int xm = DEGREES_TO_PW(x);    // scale it to use it with the servo (0-180 -> 750-2250) 
+  int ym = DEGREES_TO_PW(y);    // scale it to use it with the servo (0-180 -> 750-2250) 
+  xServo.write(xm);             // sets the servo position according to the scaled value
+  yServo.write(ym);             // sets the servo position according to the scaled value
   delay(speed);                 // waits for the servo to reach the position
   
   debugPrint(x);
   debugWrite(",");
   debugPrint(y);
   debugWrite(" -> ");
+  debugPrint(xm);
+  debugWrite(",");
+  debugPrint(ym);
+  debugWrite(" (");
   debugPrint(maxX);
   debugWrite(",");
   debugPrint(maxY);
-  debugPrintln("");
+  debugPrintln(")");
   
   return x == maxX && y == maxY ? 1 : 0;
 }
