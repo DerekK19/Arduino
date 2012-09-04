@@ -352,7 +352,10 @@ envArduino.Command(None, TARGET + '.hex', AVR_BIN_PREFIX + 'size --target=ihex $
 
 # Reset
 def pulseDTR(target, source, env):
-    import serial
+    try:
+        import serial
+    except ImportError:
+        from serial3 import *  # Python3
     import time
     ser = serial.Serial(ARDUINO_PORT)
     ser.setDTR(1)
