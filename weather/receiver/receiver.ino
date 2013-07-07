@@ -9,9 +9,11 @@
 // include the library code:
 #include <VirtualWire.h>
 
-#define ERROR_PIN 6
 #define BUSY_PIN 7
-#define RX_PIN 8
+#define ERROR_PIN 8
+#define RX_PIN 9
+
+#define DATA_SPEED 2000
 
 // assign a MAC address for the ethernet controller.
 // fill in your address here:
@@ -42,7 +44,7 @@ void setup()
 {
   // start serial port
   Serial.begin(9600);
-  Serial.println("Weather station base");
+  Serial.println("\nWeather station base");
 
   pinMode(RX_PIN, INPUT);
   pinMode(BUSY_PIN, OUTPUT);     
@@ -56,12 +58,18 @@ void setup()
   // Initialise the IO and ISR
   vw_set_ptt_inverted(true); // Required for DR3100
   vw_set_rx_pin(RX_PIN);
-  vw_setup(2000);	 // Bits per sec
+  vw_setup(DATA_SPEED);	 // Bits per sec
 
   vw_rx_start();       // Start the receiver PLL running
   
+  digitalWrite(BUSY_PIN, true);
+  digitalWrite(ERROR_PIN, true);
+
   // give the Ethernet shield time to set up:
   delay(1000);
+
+  digitalWrite(BUSY_PIN, false);
+  digitalWrite(ERROR_PIN, false);
 }
 
 void loop()
@@ -121,13 +129,14 @@ void getData()
     
       client = server.available();
       if (client.connect(service,80)) {
-        client.print("GET /weather/service/data/add?temperature=");
+        client.print("GET /weather/service/data/add?sensor=2&temperature=");
         client.print(temperature);
         client.print("&humidity=");
         client.print(humidity);
         client.println();
         gotACK = 0;
       }
+
       delay(1000);
     }
     else
@@ -139,6 +148,7 @@ void getData()
 
     digitalWrite(BUSY_PIN, false);
   }
+
 }
 
 void listenForEthernetClients() {
@@ -160,7 +170,7 @@ void listenForEthernetClients() {
           Serial.println("");
           // send a standard http response header
           inClient.println("HTTP/1.1 200 OK");
-          inClient.println("Content-Type: text/html");
+          inClient.println("Content-Type: text/json");
           inClient.println();
           // print the current readings, in JSON format:
           inClient.print("{\"Temperature\":\"");
