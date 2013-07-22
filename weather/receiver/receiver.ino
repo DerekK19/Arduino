@@ -32,9 +32,8 @@ IPAddress service_ip(192,168,0,9);	// Carrington - application web server
 // with the IP address and port you want to use 
 // (port 80 is default for HTTP):
 EthernetServer server(8080);
-EthernetClient client;
+EthernetClient wsClient;
 EthernetClient inClient;
-EthernetServer bridge(8040);
 EthernetClient brClient;
 
 float temperature = 0.0;
@@ -59,7 +58,7 @@ void setup()
 {
 	// start serial port
 	Serial.begin(9600);
-	Serial.println("\nWeather station base");
+	Serial.println("\rWeather station base");
 
 	pinMode(RX_PIN, INPUT);
 	pinMode(BUSY_PIN, OUTPUT);     
@@ -68,8 +67,6 @@ void setup()
 	// start the Ethernet connection and the server:
 	Ethernet.begin(mac, server_ip);
 	server.begin();
-	bridge.begin();
-	//client = server.available();
 
 	// Initialise the IO and ISR
 	vw_set_ptt_inverted(true); // Required for DR3100
@@ -98,11 +95,11 @@ void loop()
 	// Handle any response to the requests made to the server
 	if (gotACK == 0)
 	{
-		if (client.available()) {
-			char c = client.read();
+		if (wsClient.available()) {
+			char c = wsClient.read();
 		}
-		if (!client.connected()) {
-			client.stop();
+		if (!wsClient.connected()) {
+			wsClient.stop();
 			gotACK = 1;
 		}
 	}
@@ -128,6 +125,7 @@ void loop()
 			delay(1);   // give the caller time to receive the data
 			brClient.stop();
 			inClient.stop();
+			digitalWrite(BUSY_PIN, false);
 			gotBACK = 1;
 		}
 	}
@@ -147,7 +145,6 @@ void getData()
 		{
 			Serial.print(((char)buf[i]));
 		}
-		Serial.println();
 
 		digitalWrite(BUSY_PIN, true); // Flash a light to show received good message
 
@@ -163,16 +160,22 @@ void getData()
 			for (int i=0; i< 5; i++) carray[i] = buf[i+9];
 			humidity = atof(carray);
 
-			client = server.available();
-			if (client.connect(service_ip, service_port)) {
-				client.print("GET /weather/service/data/add?sensor=2&temperature=");
-				client.print(temperature);
-				client.print("&humidity=");
-				client.print(humidity);
-				client.println();
+			if (wsClient.connect(service_ip, service_port)) {
+				wsClient.print("GET /weather/service/data/add?sensor=2&temperature=");
+				wsClient.print(temperature);
+				wsClient.print("&humidity=");
+				wsClient.print(humidity);
+				wsClient.println();
+				Serial.println(" OK");
 				gotACK = 0;
 			}
-
+			else
+			{
+				digitalWrite(ERROR_PIN,true);
+				delay(1000);
+				digitalWrite(ERROR_PIN,false);
+				Serial.println(" ERR");
+			}
 			delay(1000);
 		}
 		else
@@ -269,8 +272,8 @@ boolean bridged(char *request)
 		request = request+9;
 		if (strstr(request,"current.json") == request)
 		{
-			brClient = bridge.available();
 			if (brClient.connect(station_ip, station_port)) {
+				digitalWrite(BUSY_PIN, true); // Flash a light to show bridging command
 				brClient.println("GET http://192.168.0.41:8040/weather/current.json HTTP/1.0");
 				brClient.println();
 				nJSON = 0;
@@ -279,5 +282,8 @@ boolean bridged(char *request)
 			}
 		}
 	}
+	digitalWrite(ERROR_PIN, true); // Flash a light to show error
+	delay(1000);
+	digitalWrite(ERROR_PIN, false);
 	return false;
 }
