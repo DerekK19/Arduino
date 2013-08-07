@@ -15,11 +15,8 @@ void setup()
     Serial.begin(9600);	  // Debugging only
     Serial.println("setup");
 
-    pinMode(13, OUTPUT);     
-
     // Initialise the IO and ISR
     vw_set_ptt_inverted(true); // Required for DR3100
-    vw_set_tx_pin(12);
     vw_setup(2000);	 // Bits per sec
 }
 
@@ -31,5 +28,5 @@ void loop()
     vw_send((uint8_t *)msg, strlen(msg));
     vw_wait_tx(); // Wait until the whole message is gone
     digitalWrite(13, false);
-    delay(500);
+    delay(200);
 }

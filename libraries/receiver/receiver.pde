@@ -1,4 +1,4 @@
-// receiver.in
+// receiver.pde
 //
 // Simple example of how to use VirtualWire to receive messages
 // Implements a simplex (one-way) receiver with an Rx-B1 module
@@ -14,12 +14,9 @@ void setup()
 {
     Serial.begin(9600);	// Debugging only
     Serial.println("setup");
-    
-	pinMode(13, OUTPUT);     
 
     // Initialise the IO and ISR
     vw_set_ptt_inverted(true); // Required for DR3100
-    vw_set_tx_pin(11);
     vw_setup(2000);	 // Bits per sec
 
     vw_rx_start();       // Start the receiver PLL running

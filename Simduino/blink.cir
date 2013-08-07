@@ -1,0 +1,9 @@
+Board UNO
+
+Wire from PowerGND1 to G32
+Wire from Power5V to L31
+Wire from 13 to j3
+
+Yellow LED from h3 to h4
+
+330 Ohm Resistor from i4 to G23

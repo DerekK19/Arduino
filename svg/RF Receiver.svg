@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" width="162.10629" xml:space="preserve" xmlns:xml="http://www.w3.org/XML/1998/namespace" version="1.1" height="53.149605" viewBox="0 0 45.749994 15.000001" style="fill-rule:evenodd" id="svg4818">
+ <metadata  id="metadata4995">
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work xmlns:cc="http://creativecommons.org/ns#" rdf:about="" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">image/svg+xml</dc:format>
+    <dc:type xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="http://purl.org/dc/dcmitype/StillImage" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/"/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs  id="defs4993"/>
+ <sodipodi:namedview xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" showgrid="true" objecttolerance="10" pagecolor="#ffffff" units="mm" bordercolor="#666666" id="namedview4991" borderopacity="1" guidetolerance="10" gridtolerance="10">
+  <inkscape:grid xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" empspacing="5" snapvisiblegridlinesonly="true" enabled="true" visible="true" type="xygrid" id="grid3953"/>
+ </sodipodi:namedview>
+ <g  id="g5409">
+  <g  id="g5350" transform="translate(0,-7.9999998)">
+   <g  xml:space="preserve" xmlns:xml="http://www.w3.org/XML/1998/namespace" style="font-size:2.25777769px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DroidSans;-inkscape-font-specification:DroidSans" id="text5031" transform="matrix(0,-1,1,0,0,4.4305915e-5)">
+    <text  x="-18.280544" y="5.6743536" style="font-size:1.69333339px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;font-family:DroidSans;-inkscape-font-specification:DroidSans" id="tspan5043">DATA</text>
+   </g>
+   <g  xml:space="preserve" xmlns:xml="http://www.w3.org/XML/1998/namespace" style="font-size:2.25777769px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DroidSans" id="text5035" transform="matrix(0,-1,1,0,0,4.4305915e-5)">
+    <text  x="-18.329273" y="3.0917265" style="font-size:1.69333327px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;font-family:DroidSans;-inkscape-font-specification:DroidSans" id="tspan5037">GND</text>
+   </g>
+   <g  xml:space="preserve" xmlns:xml="http://www.w3.org/XML/1998/namespace" style="font-size:1.69597054px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DroidSans;-inkscape-font-specification:DroidSans" id="text5039" transform="matrix(0,-0.96352313,1.0378578,0,0,4.4305915e-5)">
+    <text  x="-18.839212" y="7.9330506" style="fill:#ffffff" id="tspan5045">VCC</text>
+   </g>
+   <g  xml:space="preserve" xmlns:xml="http://www.w3.org/XML/1998/namespace" style="font-size:1.69597054px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DroidSans;-inkscape-font-specification:DroidSans" id="text5047" transform="matrix(0,-0.96352313,1.0378578,0,0,4.4305915e-5)">
+    <text  x="-18.889786" y="10.37452" id="tspan5051">ANT</text>
+   </g>
+   <rect  width="42.837822" x="1.4440883" y="9.3982954" height="9.6378231" style="fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.36217675" id="rect3945"/>
+   <path  style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:0.30467159" id="rect5330" d="m 2.2995744,19.380335 0,2.562329 0.4102956,0 0,-2.562329 -0.4102956,0 z"/>
+   <path  style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:0.30467159" id="path5334" d="m 4.8213358,19.380335 0,2.562329 0.4102956,0 0,-2.562329 -0.4102956,0 z"/>
+   <path  style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:0.30467159" id="path5336" d="m 7.3151358,19.380335 0,2.562329 0.4102952,0 0,-2.562329 -0.4102952,0 z"/>
+   <path  style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:0.30467159" id="path5338" d="m 9.8551358,19.380335 0,2.562329 0.4102952,0 0,-2.562329 -0.4102952,0 z"/>
+   <path  style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:0.30467159" id="path5340" d="m 35.255136,19.380335 0,2.562329 0.410295,0 0,-2.562329 -0.410295,0 z"/>
+   <path  style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:0.30467159" id="path5342" d="m 37.795136,19.380335 0,2.562329 0.410295,0 0,-2.562329 -0.410295,0 z"/>
+   <path  style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:0.30467159" id="path5344" d="m 40.335136,19.380335 0,2.562329 0.410295,0 0,-2.562329 -0.410295,0 z"/>
+   <path  style="fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:0.30467159" id="path5348" d="m 42.875136,19.380335 0,2.562329 0.410295,0 0,-2.562329 -0.410295,0 z"/>
+  </g>
+  <path  style="fill:#800000;fill-opacity:1;stroke:#800000" id="path5369" d="m 100,20.649605 a 5,12.5 0 1 1 -10,0 5,12.5 0 1 1 10,0 z" transform="matrix(0.28222225,0,0,0.28222225,-4.2558519e-6,0)"/>
+  <path  style="fill:#ff6600;fill-opacity:1;stroke:#800000" id="path5371" d="m 100,22.066927 a 3.7983177,3.9173229 0 1 1 -7.596635,0 3.7983177,3.9173229 0 1 1 7.596635,0 z" transform="matrix(0.28222225,0,0,0.28222225,-0.36699639,-0.42323322)"/>
+  <rect  width="5" x="105" y="13.149605" height="10" style="fill:#241c1c;fill-opacity:1;stroke:#2b1100" id="rect5373" transform="matrix(0.28222225,0,0,0.28222225,-4.2558519e-6,0)"/>
+  <g style="font-size:1.69333351px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial" id="text5375" xml:space="preserve" transform="matrix(0,-1,1,0,0,0)">
+   <text x="-10.421604" y="3.2803113" id="tspan5377">GND</text>
+  </g>
+  <g style="font-size:1.69333351px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial" id="text5379" xml:space="preserve" transform="matrix(0,-1,1,0,0,0)">
+   <text x="-10.421604" y="5.622756" id="tspan5381">DATA OUT</text>
+  </g>
+  <g style="font-size:1.69333351px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial" id="text5383" xml:space="preserve" transform="matrix(0,-1,1,0,0,0)">
+   <text x="-10.421604" y="8.162756" id="tspan5385">RSSI</text>
+  </g>
+  <g style="font-size:1.69333351px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial" id="text5387" xml:space="preserve" transform="matrix(0,-1,1,0,0,0)">
+   <text x="-10.421604" y="10.61809" id="tspan5389">VDD</text>
+  </g>
+  <g style="font-size:1.69333351px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial" id="text5391" xml:space="preserve" transform="matrix(0,-1,1,0,0,0)">
+   <text x="-10.421604" y="35.961647" id="tspan5393">VDD</text>
+  </g>
+  <g style="font-size:1.69333351px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial" id="text5395" xml:space="preserve" transform="matrix(0,-1,1,0,0,0)">
+   <text x="-10.421604" y="38.529869" id="tspan5397">GND</text>
+  </g>
+  <g style="font-size:1.69333351px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial" id="text5399" xml:space="preserve" transform="matrix(0,-1,1,0,0,0)">
+   <text x="-10.421604" y="41.098091" id="tspan5401">GND</text>
+  </g>
+  <g style="font-size:1.69333351px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial" id="text5403" xml:space="preserve" transform="matrix(0,-1,1,0,0,0)">
+   <text x="-10.421604" y="43.638092" id="tspan5405">ANT</text>
+  </g>
+  <rect  width="7.9080176" x="145" y="18.149605" height="2.689692" style="fill:#aa4400;fill-opacity:1;stroke:#aa4400" id="rect5407" transform="matrix(0.28222225,0,0,0.28222225,-4.2558519e-6,0)"/>
+ </g>
+</svg>

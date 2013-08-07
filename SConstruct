@@ -71,12 +71,17 @@ def getUsbTty(rx):
 AVR_BIN_PREFIX = None
 AVRDUDE_CONF = None
 
+ARDUINO_BOARD   = resolve_var('ARDUINO_BOARD', 'uno')
+
 if platform == 'darwin':
     # For MacOS X, pick up the AVR tools from within Arduino.app
     # Note that we can't include ~ for the current user's home directory, must have absolute path DGK 15/7/12
     ARDUINO_HOME        = resolve_var('ARDUINO_HOME',
                                       '/Applications/Developer/Arduino.app/Contents/Resources/Java')
     ARDUINO_PORT        = resolve_var('ARDUINO_PORT', getUsbTty('/dev/tty.usbmodem*'))
+    if ARDUINO_PORT == None:
+    	ARDUINO_PORT        = resolve_var('ARDUINO_PORT', getUsbTty('/dev/tty.usbserial*'))
+    	ARDUINO_BOARD   	= resolve_var('ARDUINO_BOARD', 'pro5v328')
     SKETCHBOOK_HOME     = resolve_var('SKETCHBOOK_HOME', '/Users/derek/Solutions/Arduino')
     AVR_HOME            = resolve_var('AVR_HOME',
                                       path.join(ARDUINO_HOME, 'hardware/tools/avr/bin'))
@@ -96,7 +101,6 @@ else:
     AVR_HOME            = resolve_var('AVR_HOME', '')
 
 
-ARDUINO_BOARD   = resolve_var('ARDUINO_BOARD', 'uno')
 ARDUINO_VER     = resolve_var('ARDUINO_VER', 0) # Default to 0 if nothing is specified
 RST_TRIGGER     = resolve_var('RST_TRIGGER', None) # use built-in pulseDTR() by default
 EXTRA_LIB       = resolve_var('EXTRA_LIB', '') # handy for adding another arduino-lib dir

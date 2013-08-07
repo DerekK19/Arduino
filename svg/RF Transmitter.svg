@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Creator: CorelDRAW -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="13mm"
+   xml:space="preserve"
+   version="1.1"
+   height="23mm"
+   viewBox="0 0 13 23"
+   style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+   id="svg4818"
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="RF Transmitter.svg">
+ <metadata
+   id="metadata4995">
+  <rdf:RDF>
+   <cc:Work
+   rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type
+   rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title />
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs
+   id="defs4993" />
+ <sodipodi:namedview
+   showgrid="false"
+   objecttolerance="10"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   id="namedview4991"
+   borderopacity="1"
+   guidetolerance="10"
+   gridtolerance="10"
+   inkscape:zoom="8.1906877"
+   inkscape:cx="8.3807116"
+   inkscape:cy="59.097452"
+   inkscape:window-width="1166"
+   inkscape:window-height="658"
+   inkscape:window-x="170"
+   inkscape:window-y="31"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="svg4818" />
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<g
+   id="g5843"><rect
+     transform="scale(0.28222222,0.28222222)"
+     id="rect5013"
+     style="fill:#008000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     height="64.575272"
+     y="2.9352396"
+     x="2.9352396"
+     width="40.230049" /><rect
+     transform="scale(0.28222222,0.28222222)"
+     id="rect5017"
+     style="fill:#ececec"
+     height="6.2158012"
+     y="6.3884625"
+     x="11.913619"
+     width="22.791271" /><path
+     transform="scale(0.28222222,0.28222222)"
+     d="m 37.46747,9.5826941 a 3.1942313,2.8489089 0 1 1 -6.388462,0 3.1942313,2.8489089 0 1 1 6.388462,0 z"
+     id="path5019"
+     style="fill:#ececec" /><path
+     transform="scale(0.28222222,0.28222222)"
+     d="m 15.539503,9.4963636 a 3.1942313,3.1079006 0 1 1 -6.3884622,0 3.1942313,3.1079006 0 1 1 6.3884622,0 z"
+     id="path5021"
+     style="fill:#ececec" /><path
+     transform="scale(0.28222222,0.28222222)"
+     d="m 36.949486,9.5826941 a 2.2445951,3.0215702 0 1 1 -4.48919,0 2.2445951,3.0215702 0 1 1 4.48919,0 z"
+     id="path5023"
+     style="fill:#ececec" /><path
+     transform="scale(0.28222222,0.28222222)"
+     d="m 36.604164,9.4100323 a 1.812942,3.0215702 0 1 1 -3.625884,0 1.812942,3.0215702 0 1 1 3.625884,0 z"
+     id="path5025"
+     style="fill:#ececec" /><g
+     transform="matrix(0,-1,1,0,0,0)"
+     xml:space="preserve"
+     id="text5031"
+     style="font-size:2.25777764px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DroidSans;-inkscape-font-specification:DroidSans;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr">
+  <text
+   id="tspan5043"
+   style="fill:#ffffff;-inkscape-font-specification:DroidSans;font-family:DroidSans;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:1.69333333px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%"
+   y="5.6743536"
+   x="-18.280544">DATA</text>
+
+ </g><g
+     transform="matrix(0,-1,1,0,0,0)"
+     xml:space="preserve"
+     id="text5035"
+     style="font-size:2.25777769px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DroidSans">
+  <text
+   id="tspan5037"
+   style="font-size:1.69333327px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;font-family:DroidSans;-inkscape-font-specification:DroidSans"
+   y="3.0917265"
+   x="-18.329273">GND</text>
+
+ </g><g
+     transform="matrix(0,-0.96352313,1.0378578,0,0,0)"
+     xml:space="preserve"
+     id="text5039"
+     style="font-size:1.69597054px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DroidSans;-inkscape-font-specification:DroidSans">
+  <text
+   id="tspan5045"
+   style="fill:#ffffff"
+   y="7.9330506"
+   x="-18.839212">VCC</text>
+
+ </g><g
+     transform="matrix(0,-0.96352313,1.0378578,0,0,0)"
+     xml:space="preserve"
+     id="text5047"
+     style="font-size:1.69597058999999994px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DroidSans;-inkscape-font-specification:DroidSans">
+  <text
+   id="tspan5051"
+   y="10.37452"
+   x="-18.889786">ANT</text>
+
+ </g><rect
+     y="19.355721"
+     x="4.6860738"
+     height="2.7439351"
+     width="0.5545786"
+     id="rect5835"
+     style="fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:0.27894713999999998" /><rect
+     style="fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:0.27894713999999998"
+     id="rect5837"
+     width="0.5545786"
+     height="2.7439351"
+     x="2.1460736"
+     y="19.355721" /><rect
+     style="fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:0.27894713999999998"
+     id="rect5839"
+     width="0.5545786"
+     height="2.7439351"
+     x="7.2260737"
+     y="19.355721" /><rect
+     y="19.355721"
+     x="9.7660732"
+     height="2.7439351"
+     width="0.5545786"
+     id="rect5841"
+     style="fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:0.27894713999999998" /></g></svg>

@@ -41,10 +41,10 @@ int alignData();
 static uint8_t RX_PIN = 8;
 
 // The data ready pin
-static uint8_t ACK_PIN = 6;
+static uint8_t ACK_PIN = A1;
 
 // The data sync pin
-static uint8_t SYNC_PIN = 7;
+static uint8_t SYNC_PIN = A2;
 
 // The state machine;s current state
 int state = IDLE;			//Startup state is idle

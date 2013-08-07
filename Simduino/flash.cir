@@ -1,0 +1,30 @@
+Board UNO
+Wire from PowerGND1 to G55
+Wire from Power5V to L54
+
+Wire from 13 to j3
+Wire from 12 to j6
+Wire from 11 to j9
+Wire from 10 to j12
+Wire from 9 to j15
+Wire from 8 to j18
+Wire from 7 to j21
+Wire from 6 to j24
+
+Yellow LED from h3 to h4
+Green LED from h6 to h7
+Yellow LED from h9 to h10
+Green LED from h12 to h13
+Yellow LED from h15 to h16
+Green LED from h18 to h19
+Yellow LED from h21 to h22
+Green LED from h24 to h25
+
+330 Ohm Resistor from i4 to G14
+330 Ohm Resistor from i7 to G21
+330 Ohm Resistor from i10 to G24
+330 Ohm Resistor from i13 to G31
+330 Ohm Resistor from i16 to G34
+330 Ohm Resistor from i19 to G41
+330 Ohm Resistor from i22 to G44
+330 Ohm Resistor from i25 to G51
