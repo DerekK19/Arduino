@@ -4,6 +4,8 @@
 
 #include <ServoTimer2.h>
 #include <VirtualWire.h>
+#include <PololuWheelEncoders.h>
+
 
 #define DEBUG TRUE
 #define DIAG FALSE
@@ -32,8 +34,8 @@
 
 #define OUTA_LEFT 12
 #define OUTB_LEFT 11
-#define OUTA_RIGHT 3
-#define OUTB_RIGHT 2
+#define OUTA_RIGHT 2
+#define OUTB_RIGHT 3
 
 #define SR_DATA 5
 #define SR_LATCH 6
@@ -68,6 +70,7 @@ void diagSetup();
 void diagWrite(int x, int y, char *t);
 void diagPrint(int x, int y, int i);
 void diagDisplay(int x, int y, int d, int near, int nearX, int nearY, int rangeX, int rangeY);
+void debugPrintEncoders();
 
 int sensorPin = RANGE_PIN;
 
@@ -75,8 +78,9 @@ ServoTimer2 xServo;  // create servo object to control a servo
                		 // a maximum of eight servo objects can be created 
 ServoTimer2 yServo;  // create servo object to control a servo 
                		 // a maximum of eight servo objects can be created 
-Encoder leftEnc (OUTA_LEFT, OUTB_LEFT);
-Encoder rightEnc (OUTA_RIGHT, OUTB_RIGHT);
+//Encoder leftEnc (OUTA_LEFT, OUTB_LEFT);
+//Encoder rightEnc (OUTA_RIGHT, OUTB_RIGHT);
+PololuWheelEncoders encoder;
  
 int run = 0;
 int toggle = 0;
@@ -117,8 +121,9 @@ void setup()
   
   pinMode (VW_PIN, OUTPUT);
   
-  leftEnc.start();
-  rightEnc.start();
+//  leftEnc.start();
+//  rightEnc.start();
+  encoder.init (OUTA_LEFT, OUTB_LEFT, OUTA_RIGHT, OUTB_RIGHT);
 
   delay(5000);
   
@@ -127,8 +132,6 @@ void setup()
   
   xServo.attach(XSERVO_PIN);  // attaches the servo on XSERVO_PIN to the servo object 
   yServo.attach(YSERVO_PIN);  // attaches the servo on YSERVO_PIN to the servo object 
-  
-//  enc.init (OUTA_LEFT, OUTB_LEFT, OUTA_RIGHT, OUTB_RIGHT);
   
   x = -1;
   y = -1;
@@ -253,52 +256,53 @@ void motor(int motorA, int motorB)
 	value = (value << 1) + (motorB == REVERSE ? 1 : 0);	// For BIN2
 	value = (value << 1) + 1;							// For PWMB
 	value = (value << 1);								// For unused bit 8
-	debugPrintHEXln(value);
+//	debugPrintHEXln(value);
 	shiftOut(SR_DATA, SR_CLOCK, MSBFIRST, value);
 	digitalWrite(SR_LATCH, HIGH);
 }
 
 void testMotors()
 {
-#define RUN 150
+#define RUN 300
 #define PAUSE 1000
 #define WAIT 2000
   delay(WAIT);
-  debugPrintDECln(leftEnc.read());
-  debugPrintDECln(rightEnc.read());
+  debugPrintEncoders();
   debugPrintln("Left forward");
   motor(ADVANCE, STOP);
   delay(RUN);
-  debugPrintDECln(leftEnc.read());
-  debugPrintDECln(rightEnc.read());
   motor(STOP, STOP);
+  debugPrintEncoders();
   delay(PAUSE);
   debugPrintln("Left forward");
   motor(REVERSE, STOP);
   delay(RUN);
   motor(STOP, STOP);
-  debugPrintDECln(leftEnc.read());
-  debugPrintDECln(rightEnc.read());
+  debugPrintEncoders();
   delay(WAIT);
   debugPrintln("Right forward");
   motor(STOP, ADVANCE);
   delay(RUN);
   motor(STOP, STOP);
+  debugPrintEncoders();
   delay(PAUSE);
   debugPrintln("Right backward");
   motor(STOP, REVERSE);
   delay(RUN);
   motor(STOP, STOP);
+  debugPrintEncoders();
   delay(WAIT);
   debugPrintln("Both forward");
   motor(ADVANCE, ADVANCE);
   delay(RUN);
   motor(STOP, STOP);
+  debugPrintEncoders();
   delay(PAUSE);
   debugPrintln("Both backward");
   motor(REVERSE, REVERSE);
   delay(RUN);
   motor(STOP, STOP);
+  debugPrintEncoders();
 }
 
 // Look round the area bounded by minX,minY - maxX,maxY
@@ -360,6 +364,16 @@ int distance()
   if (volts < .2) { inches = -1.0; cm = -1.0; }   // out of range    
 
   return cm;
+}
+
+void debugPrintEncoders()
+{
+//  debugPrintDECln(leftEnc.read());
+  Serial.print( encoder.getCountsM1(), DEC );
+  Serial.print(" ");
+//  debugPrintDECln(rightEnc.read());
+  Serial.print( encoder.getCountsM2(), DEC );
+  Serial.println();
 }
 
 void diagSetup()
